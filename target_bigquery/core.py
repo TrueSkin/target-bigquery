@@ -444,6 +444,11 @@ class BaseBigQuerySink(BatchSink):
             "generate_view", False
         )
 
+    def _singer_validate_message(self, record: dict) -> None:
+        """Skip key property validation — pipelinewise tap-mongodb wraps
+        document fields under 'data', so _id is not at the record root."""
+        pass
+
     def _validate_and_parse(self, record: dict) -> dict:
         return record
 
