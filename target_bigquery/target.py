@@ -590,6 +590,11 @@ class TargetBigQuery(Target):
         """Don't throw on config validation since our JSON schema doesn't seem to play well with meltano for whatever reason"""
         return super()._validate_config(raise_errors=False)
 
+    def _singer_validate_message(self, message: dict) -> None:
+        """Skip key property validation — records from pipelinewise tap-mongodb
+        wrap document fields under a 'data' key, so _id is not at the record root."""
+        pass
+
 
 if __name__ == "__main__":
     TargetBigQuery.cli()
